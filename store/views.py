@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from .models import *
 
 # Create your views here.
@@ -40,3 +40,7 @@ def checkout(request):
 
     context = {'items': items, 'order': order}
     return render(request, 'store/Checkout.html', context)
+
+
+def updateItem(request):
+    return JsonResponse('Item added', safe=False)
