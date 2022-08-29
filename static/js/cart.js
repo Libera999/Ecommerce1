@@ -25,13 +25,14 @@ function updateUserOrder(productId, action){
 			method:'POST',
 			headers:{
 				'Content-Type':'application/json',
+                'X-CSRFToken':csrftoken,
 			}, 
-			body:JSON.stringify({'productId':productId, 'action':action})
+			body:JSON.stringify({'productId':productId, 'action':action}) //data sent to the backend
 		})
 		.then((response) => {
 		   return response.json();
 		})
 		.then((data) => {
-		    console.log('Data:', data)
+		    location.reload()
 		});
 }
