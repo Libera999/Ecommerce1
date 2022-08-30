@@ -19,7 +19,7 @@ for (i = 0; i < updateBtns.length; i++) {
 function updateUserOrder(productId, action){
 	console.log('User is authenticated, sending data...')
 
-		let url = '/update_item/' //send POST data here to this view
+		let url = '/update_item/' //send POST data to this view - updateItem
 
 		fetch(url, {
 			method:'POST',
