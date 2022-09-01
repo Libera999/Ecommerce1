@@ -1,6 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+
+
+from django.views.decorators.csrf import csrf_exempt
+
 from .models import *
+import datetime
 import json
 
 # Create your views here.
@@ -85,3 +90,36 @@ def updateItem(request):
         orderItem.delete()
 
     return JsonResponse('Item was added', safe=False)
+
+
+@csrf_exempt  # marks a view as being exempt from the protection ensured by the middleware
+def processOrder(request):
+    transaction_id = datetime.datetime.now().timestamp()
+
+    data = json.loads(request.body)  # parse the data
+
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(
+            customer=customer, complete=False)
+        total = float(data['form']['total'])
+        order.transaction_id = transaction_id
+
+        if total == order.get_cart_total:  # protection against users manipulating our data on the frontend
+            order.complete = True
+        order.save()
+
+        if order.shipping == True:
+            ShippingAddress.objects.create(  # create attrib of a model and pass values
+                customer=customer,
+                order=order,
+                address=data['shipping']['address'],  # sent form data
+                city=data['shipping']['city'],
+                state=data['shipping']['state'],
+                zipcode=data['shipping']['zipcode'],
+                # date will be added automatically
+            )
+    else:
+        print('User is not logged in')
+
+    return JsonResponse('Payment done', safe=False)

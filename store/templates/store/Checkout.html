@@ -63,7 +63,7 @@
 
 <script type="text/javascript">
         let shipping = '{{order.shipping}}'
-        let total='{{order.get_cart_total|floatformat:2}}'
+        let total='{{order.get_cart_total}}'
 
         if (shipping=='False'){
             document.getElementById('shipping-info').innerHTML='' //remove info for shipping info form
@@ -89,14 +89,14 @@
                 document.getElementById('payment-info').classList.remove("hidden"); //payment wrapper
             })
 
-    document.getElementById('make-payment').addEventListener('click', function(e){
+    document.getElementById('make-payment').addEventListener('click', function(e){ //if pressing Make Payment button
         submitFormData()
         })
 
     function submitFormData(){
             console.log('Payment button clicked')
 
-            let userFormData={
+            let userFormData={ //set JS objects to send to the backend
                 'name': null,
                 'email': null,
                 'total': total,  
@@ -109,7 +109,7 @@
                 'zipcode':null, 
             }
 
-            if (shipping != 'False'){
+            if (shipping != 'False'){  //set values from the form before we send them to the backend
 	    		shippingInfo.address = form.address.value
 		    	shippingInfo.city = form.city.value
 		    	shippingInfo.state = form.state.value
@@ -117,14 +117,35 @@
 	    	}
 
 	    	if (user == 'AnonymousUser'){
-	    		userFormData.name = form.name.value
+	    		userFormData.name = form.name.value //fetch the user info
 	    		userFormData.email = form.email.value
 	    	}
 
 	    	console.log('Shipping Info:', shippingInfo)
 	    	console.log('User Info:', userFormData)
-	    }
 
+            //send POST Data
+            //create POST request with fetch() and send data to backend
+            let url='/process_order/'
+
+            fetch(url, {
+	    		method:'POST',
+	    		headers:{
+	    			'Content-Type':'applicaiton/json',
+	    			'X-CSRFToken':csrftoken,
+	    		}, 
+	    		body:JSON.stringify({'form':userFormData, 'shipping':shippingInfo}), //send the data to backend
+	    		})
+	    	.then((response) => response.json()) //return promise
+	    	.then((data) => {
+				  console.log('Success:', data);
+				  alert('Transaction completed');  //create an alert
+				  window.location.href = "{% url 'store' %}" //return to the store page
+
+				})
+
+
+	    }
         
 </script>
 {% endblock content%}
