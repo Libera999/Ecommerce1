@@ -25,8 +25,14 @@ h1,h2,h3,h4,h5,h6{
 	border-radius: 0 0 4px 4px;
 }
 
-.bg-dark{
-	background-color: hsl(194, 41%, 41%)!important;
+.bg-new{
+	background-color: #95919b;
+	font-family: 'Calibri';
+}
+
+.navbar-brand{
+	font-size: 20px;
+	font-weight: 400;
 }
 
 #cart-icon{
