@@ -18,6 +18,20 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
 
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper@7/swiper-bundle.min.css"
+    />
+
+    <!-- font cdn link  -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+
     <script type="text/javascript">
       let user = "{{request.user}}";
 
@@ -70,7 +84,37 @@
       console.log("Cart:", cart);
     </script>
   </head>
+
   <body>
+    <!-- header section starts  -->
+
+    <header class="header">
+      <div class="header-1">
+        <img src="{% static 'images/logo.png' %}" width="150" height="120"></img>
+
+        <img src="{% static 'images/header2.jpg' %}" class="header-img"></img>
+        <div class="form-inline my-2 my-lg-0">
+
+          <a href="{% url 'cart' %}">
+            <img id="cart-icon" src="{% static 'images/cart.png' %}" />
+          </a>
+          <p id="cart-total">{{cartItems}}</p>
+      
+          <div id="login-btn" class="fas fa-user" style="font-size:24px"></div>
+        </div>
+      </div>
+
+      <div class="header-2">
+        <nav class="navbar">
+          <a href="{% url 'store' %}">home</a>
+          
+        </nav>
+      </div>
+    </header>
+
+    <!-- header section ends -->
+
+    {% comment %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-new">
       <a class="navbar-brand" href="{% url 'store' %}">Online courses</a>
       <button
@@ -93,7 +137,9 @@
             >
           </li>
         </ul>
-        <div class="form-inline my-2 my-lg-0">
+        {% endcomment %}
+
+        {% comment %} <div class="form-inline my-2 my-lg-0">
           <a href="#" class="btn btn-warning">Login</a>
 
           <a href="{% url 'cart' %}">
@@ -102,12 +148,66 @@
           <p id="cart-total">{{cartItems}}</p>
         </div>
       </div>
-    </nav>
+    </nav> {% endcomment %}
 
     <div class="container">
       <br />
       {% block content %} {% endblock content %}
     </div>
+
+    <section class="footer">
+
+      <div class="box-container">
+  
+          <div class="box">
+              <h3>our locations</h3>
+              <a href="#"> <i class="fas fa-map-marker-alt"></i> canada </a>
+              <a href="#"> <i class="fas fa-map-marker-alt"></i> USA </a>
+              <a href="#"> <i class="fas fa-map-marker-alt"></i> russia </a>
+              <a href="#"> <i class="fas fa-map-marker-alt"></i> france </a>
+              
+              
+          </div>
+  
+          <div class="box">
+              <h3>quick links</h3>
+              <a href="#"> <i class="fas fa-arrow-right"></i> home </a>
+              <a href="#"> <i class="fas fa-arrow-right"></i> featured </a>
+              <a href="#"> <i class="fas fa-arrow-right"></i> arrivals </a>
+              <a href="#"> <i class="fas fa-arrow-right"></i> reviews </a>
+              <a href="#"> <i class="fas fa-arrow-right"></i> blogs </a>
+          </div>
+  
+          <div class="box">
+              <h3>extra links</h3>
+              <a href="#"> <i class="fas fa-arrow-right"></i> account info </a>
+              <a href="#"> <i class="fas fa-arrow-right"></i> ordered items </a>
+              <a href="#"> <i class="fas fa-arrow-right"></i> privacy policy </a>
+              <a href="#"> <i class="fas fa-arrow-right"></i> payment method </a>
+              <a href="#"> <i class="fas fa-arrow-right"></i> our serivces </a>
+          </div>
+  
+          <div class="box">
+              <h3>contact info</h3>
+          
+              <a href="#"> <i class="fas fa-phone"></i> +1712-456-111 </a>
+              <a href="#"> <i class="fas fa-envelope"></i> new@artfiber.com </a>
+              <img src="image/worldmap.png" class="map" alt="">
+          </div>
+          
+      </div>
+  
+      <div class="share">
+          <a href="#" class="fab fa-facebook-f"></a>
+          <a href="#" class="fab fa-twitter"></a>
+          <a href="#" class="fab fa-instagram"></a>
+          <a href="#" class="fab fa-linkedin"></a>
+          <a href="#" class="fab fa-pinterest"></a>
+      </div>
+  
+      <div class="credit"> All rights reserved </div>
+  
+  </section>
 
     <script
       src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
