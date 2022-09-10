@@ -296,11 +296,6 @@ section{
     cursor: pointer;
 }
 
-.home{
-    background: url(../image/banner-bg.jpg) no-repeat;
-    background-size: cover;
-    background-position: center;
-}
 
 .home .row{
     display:flex;
@@ -463,14 +458,6 @@ section{
     background: var(--black);
     color:#fff;
 }
-
-.newsletter{
-    background:url(../image/letter-bg.jpg) no-repeat;
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-}
-
 
 .arrivals .arrivals-slider .box{
     display: flex;
