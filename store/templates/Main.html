@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+  <head>
+    <title>Art supplies</title>
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/swiper@7/swiper-bundle.min.css"
+    />
+
+    <!-- font cdn link  -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+
+    <!-- custom css file link  -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+
+    <script type="text/javascript">
+      let user = "{{request.user}}";
+
+      function getToken(name) {
+        //create csrftoken
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+          var cookies = document.cookie.split(";");
+          for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === name + "=") {
+              cookieValue = decodeURIComponent(
+                cookie.substring(name.length + 1)
+              );
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+      let csrftoken = getToken("csrftoken");
+
+      function getCookie(name) {
+        // Split cookie string and get all individual name=value pairs in an array
+        var cookieArr = document.cookie.split(";");
+
+        // Loop through the array elements
+        for (var i = 0; i < cookieArr.length; i++) {
+          var cookiePair = cookieArr[i].split("=");
+
+          /* Removing whitespace at the beginning of the cookie name
+		        and compare it with the given string */
+          if (name == cookiePair[0].trim()) {
+            // Decode the cookie value and return
+            return decodeURIComponent(cookiePair[1]);
+          }
+        }
+
+        // Return null if not found
+        return null;
+      }
+      var cart = JSON.parse(getCookie("cart")); //constructing the JavaScript object described in cookies
+
+      if (cart == undefined) {
+        cart = {};
+        console.log("Cart Created!", cart);
+        document.cookie = "cart=" + JSON.stringify(cart) + ";domain=;path=/";
+      }
+      console.log("Cart:", cart);
+    </script>
+  </head>
+
+  <body>
+    <!-- header section starts  -->
+
+    <header class="header">
+      <div class="header-1">
+        <img src="{% static 'images/logo.png' %}" width="150" height="120"></img>
+
+        <img src="{% static 'images/header2.jpg' %}" class="header-img"></img>
+        <div class="form-inline my-2 my-lg-0">
+
+          <a href="{% url 'cart' %}">
+            <img id="cart-icon" src="{% static 'images/cart.png' %}" />
+          </a>
+          <p id="cart-total">{{cartItems}}</p>
+      
+          <div id="login-btn" class="fas fa-user" style="font-size:24px"></div>
+        </div>
+      </div>
+
+      <div class="header-2">
+        <nav class="navbar">
+          <a href="{% url 'store' %}">home</a>
+          
+        </nav>
+      </div>
+    </header>
+
+    <!-- header section ends -->
+
+    {% comment %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-new">
+      <a class="navbar-brand" href="{% url 'store' %}">Online courses</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'store' %}"
+              >Store <span class="sr-only">(current)</span></a
+            >
+          </li>
+        </ul>
+        {% endcomment %}
+
+        {% comment %} <div class="form-inline my-2 my-lg-0">
+          <a href="#" class="btn btn-warning">Login</a>
+
+          <a href="{% url 'cart' %}">
+            <img id="cart-icon" src="{% static 'images/cart.png' %}" />
+          </a>
+          <p id="cart-total">{{cartItems}}</p>
+        </div>
+      </div>
+    </nav> {% endcomment %}
+
+    <div class="container">
+      <br />
+      {% block content %} {% endblock content %}
+    </div>
+
+    <section class="footer">
+
+      <div class="box-container">
+  
+          <div class="box">
+              <h3>our locations</h3>
+              <a href="#"> <i class="fas fa-map-marker-alt"></i> canada </a>
+              <a href="#"> <i class="fas fa-map-marker-alt"></i> USA </a>
+              <a href="#"> <i class="fas fa-map-marker-alt"></i> russia </a>
+              <a href="#"> <i class="fas fa-map-marker-alt"></i> france </a>
+              
+              
+          </div>
+  
+          <div class="box">
+              <h3>quick links</h3>
+              <a href="#"> <i class="fas fa-arrow-right"></i> home </a>
+              <a href="#"> <i class="fas fa-arrow-right"></i> featured </a>
+              <a href="#"> <i class="fas fa-arrow-right"></i> arrivals </a>
+              <a href="#"> <i class="fas fa-arrow-right"></i> reviews </a>
+              <a href="#"> <i class="fas fa-arrow-right"></i> blogs </a>
+          </div>
+  
+          <div class="box">
+              <h3>extra links</h3>
+              <a href="#"> <i class="fas fa-arrow-right"></i> account info </a>
+              <a href="#"> <i class="fas fa-arrow-right"></i> ordered items </a>
+              <a href="#"> <i class="fas fa-arrow-right"></i> privacy policy </a>
+              <a href="#"> <i class="fas fa-arrow-right"></i> payment method </a>
+              <a href="#"> <i class="fas fa-arrow-right"></i> our serivces </a>
+          </div>
+  
+          <div class="box">
+              <h3>contact info</h3>
+          
+              <a href="#"> <i class="fas fa-phone"></i> +1712-456-111 </a>
+              <a href="#"> <i class="fas fa-envelope"></i> new@artfiber.com </a>
+              <img src="image/worldmap.png" class="map" alt="">
+          </div>
+          
+      </div>
+  
+      <div class="share">
+          <a href="#" class="fab fa-facebook-f"></a>
+          <a href="#" class="fab fa-twitter"></a>
+          <a href="#" class="fab fa-instagram"></a>
+          <a href="#" class="fab fa-linkedin"></a>
+          <a href="#" class="fab fa-pinterest"></a>
+      </div>
+  
+      <div class="credit"> All rights reserved </div>
+  
+  </section>
+
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+
+    <script type="text/javascript" src="{%static 'js/cart.js'%}"></script>
+  </body>
+</html>
